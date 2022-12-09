@@ -25,8 +25,29 @@ namespace DGP.Client.Services
 
             try
             {
-                var reply = client.GrpcGetBlog(request);
+                var reply = client.GrpcGetBlogs(request);
                 return reply.Blogs;
+
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError(e.Message, e);
+                return null!;
+            }
+        }
+        public GrpcGetBlogModel CreateBlog(GrpcGetBlogRequest request)
+        {
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+            var channel = GrpcChannel.ForAddress(_endpoint, new GrpcChannelOptions { HttpHandler = httpHandler });
+            var client = new GrpcBlog.GrpcBlogClient(channel);
+
+            try
+            {
+                var reply = client.GrpcPostBlog(request);
+                return reply;
 
             }
             catch (Exception e)

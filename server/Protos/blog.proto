@@ -5,7 +5,8 @@ option csharp_namespace = "DGP.Server.Protos";
 // The greeting service definition.
 service GrpcBlog {
   // Sends a greeting
-  rpc GrpcGetBlog (GrpcGetBlogRequest) returns (GrpcGetBlogResponse);  
+  rpc GrpcGetBlogs (GrpcGetBlogRequest) returns (GrpcGetBlogResponse);
+  rpc GrpcPostBlog (GrpcGetBlogRequest) returns (GrpcGetBlogModel);
 }
 
 // The request message containing the user's name.
