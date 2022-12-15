@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "DGP.Server.Protos";
+
+// The greeting service definition.
+service GrpcBlog {
+  // Sends a greeting
+  rpc GrpcGetBlogs (GrpcGetBlogRequest) returns (GrpcGetBlogResponse);
+  rpc GrpcPostBlog (GrpcGetBlogRequest) returns (GrpcGetBlogModel);
+}
+
+// The request message containing the user's name.
+message GrpcGetBlogRequest {
+  int32 id = 1;
+  string Name = 2; 
+}
+
+message GrpcGetBlogModel {
+  int32 id = 1;
+  string Name = 2; 
+  int32 statusCode = 3;
+}
+
+// The response message containing the greetings.
+message GrpcGetBlogResponse {
+  repeated GrpcGetBlogModel blogs = 1;
+}
