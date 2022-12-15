@@ -38,10 +38,18 @@ namespace DGP.Client.Services
         }
         public GrpcGetBlogModel CreateBlog(GrpcGetBlogRequest request)
         {
-            var httpHandler = new HttpClientHandler();
-            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            // var httpHandler = new HttpClientHandler();
+            // httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 
-            var channel = GrpcChannel.ForAddress(_endpoint, new GrpcChannelOptions { HttpHandler = httpHandler });
+            // keep alive handler
+            var handler = new SocketsHttpHandler{
+                PooledConnectionIdleTimeout=Timeout.InfiniteTimeSpan,
+                KeepAlivePingDelay=TimeSpan.FromSeconds(60),
+                KeepAlivePingTimeout=TimeSpan.FromSeconds(30),
+                EnableMultipleHttp2Connections=true
+            };
+
+            var channel = GrpcChannel.ForAddress(_endpoint, new GrpcChannelOptions { HttpHandler = handler });
             var client = new GrpcBlog.GrpcBlogClient(channel);
 
             try
